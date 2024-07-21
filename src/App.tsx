@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react';
 import { BsEye, BsWater, BsThermometer, BsWind } from 'react-icons/bs';
 import { TbTemperatureCelsius } from 'react-icons/tb';
 import { ImSpinner8 } from 'react-icons/im';
-import axios from 'axios';
-import { WeatherData } from './interface/wheater';
+
 import SearchForm from './components/SearchForm';
 import WeatherIcon from './components/WeatherIcon';
+import { WeatherData } from './interface/wheater';
+import { fetchWeatherData } from './api/api';
 
-
-
-const APIkey = '77ef0a0bbd5900715f9239c99fae59b1';
 
 function App() {
   const [data, setData] = useState<WeatherData | null>(null);
@@ -28,16 +26,17 @@ function App() {
   };
 
   useEffect(() => {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIkey}`;
-    axios.get(url)
-      .then((res) => {
-        setData(res.data);
+    const fetchData = async () => {
+      const result = await fetchWeatherData(location);
+      if (result) {
+        setData(result);
         setError('');
-      })
-      .catch(() => {
+      } else {
         setData(null);
         setError('Ciudad no disponible');
-      });
+      }
+    };
+    fetchData();
   }, [location]);
 
   console.log(data);
@@ -49,7 +48,6 @@ function App() {
       </div>
     );
   }
-
 
   const date = new Date();
 
@@ -75,38 +73,35 @@ function App() {
               </div>
             </div>
             <div className='my-20'>
-              <div className='flex items-center justify-center '>
+              <div className='flex items-center justify-center'>
                 <div className='text-[114px] leading-none font-semibold'>
-                  {parseInt(data.main.temp)}
+                  {Math.round(data.main.temp)}
                 </div>
                 <div className='text-4xl'><TbTemperatureCelsius /></div>
               </div>
-              <div className='capitalize text-center'>{data.weather[0].description}
-              </div>
+              <div className='capitalize text-center'>{data.weather[0].description}</div>
             </div>
             <div className='max-w-[378px] mx-auto flex flex-col gap-y-6'>
               <div className='flex justify-between'>
-                <div className='flex items-center gap-x-2 '>
-                  <div className='text-[20px]'> <BsEye />
-                  </div>
+                <div className='flex items-center gap-x-2'>
+                  <div className='text-[20px]'><BsEye /></div>
                   <div>Visibility <span className='ml-2'>{data.visibility / 1000}</span> km</div>
                 </div>
-                <div className='flex items-center   gap-x-2  '>
-                  <div className='text-[20px]'> <BsThermometer /></div>
-                  <div>Feel like <span className='ml-2'>{parseInt(data.main.feels_like)}</span>  °C</div>
+                <div className='flex items-center gap-x-2'>
+                  <div className='text-[20px]'><BsThermometer /></div>
+                  <div>Feel like <span className='ml-2'>{Math.round(data.main.feels_like)}</span> °C</div>
                 </div>
               </div>
             </div>
             <div className='max-w-[378px] mx-auto flex flex-col mt-6'>
               <div className='flex justify-between'>
-                <div className='flex items-center  gap-x-2 '>
-                  <div className='text-[20px]'> <BsWater />
-                  </div>
+                <div className='flex items-center gap-x-2'>
+                  <div className='text-[20px]'><BsWater /></div>
                   <div>Humidity <span className='ml-2'>{data.main.humidity}</span> %</div>
                 </div>
-                <div className='flex items-center  gap-x-2  '>
-                  <div className='text-[20px] '> <BsWind /></div>
-                  <div>Wind<span className='ml-2'>{(data.wind.speed)}</span>m/s</div>
+                <div className='flex items-center gap-x-2'>
+                  <div className='text-[20px]'><BsWind /></div>
+                  <div>Wind <span className='ml-2'>{data.wind.speed}</span> m/s</div>
                 </div>
               </div>
             </div>
