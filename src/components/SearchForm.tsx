@@ -8,7 +8,7 @@ type SearchFormProps = {
 
 const SearchForm = ({ inputValue, handleInput, handleSubmit }: SearchFormProps) => (
     <form className='w-full max-w-[450px] h-16 bg-black/20 rounded-full backdrop-blur-[32px] mb-8' onSubmit={handleSubmit}>
-        <div className='w-full h-full flex items-center justify-between p-4'>
+        <div className='flex items-center justify-between w-full h-full p-4'>
             <input
                 type="text"
                 placeholder='Search Location'
@@ -18,7 +18,7 @@ const SearchForm = ({ inputValue, handleInput, handleSubmit }: SearchFormProps) 
             />
             <button
                 type='submit'
-                className='bg-[#1ab8ed] hover:bg-[#15abdd] w-20 h-12 rounded-full flex justify-center items-center'>
+                className='flex items-center justify-center w-20 h-12 bg-yellow-500 rounded-full hover:bg-yellow-600'>
                 <IoMdSearch className='text-2xl text-white' />
             </button>
         </div>

@@ -52,21 +52,21 @@ function App() {
   const date = new Date();
 
   return (
-    <div className='w-full h-screen bg-gradient-to-br from-blue-500 to-slate-500 bg-no-repeat bg-cover flex flex-col items-center justify-center px-4 lg:px-0'>
+    <div className='flex flex-col items-center justify-center w-full h-screen px-4 bg-no-repeat bg-cover bg-gradient-to-br from-green-500 to-red-500 lg:px-0'>
       <SearchForm
         inputValue={inputValue}
         handleInput={handleInput}
         handleSubmit={handleSubmit}
       />
       {error ? (
-        <div className='text-white text-2xl'>{error}</div>
+        <div className='text-2xl text-white'>{error}</div>
       ) : (
         data && (
           <div className='w-full max-w-[450px] min-h-[530px] backdrop-blur-[40px] bg-black/20 text-white p-4 rounded-[32px] py-12 px-6'>
             <div className='flex items-center gap-x-5'>
               <WeatherIcon weather={data.weather[0].main} />
               <div>
-                <div className='text-2xl font-semibold'>{data.name}, {data.sys.country}</div>
+                <div className='text-2xl font-bold'>{data.name}, {data.sys.country}</div>
                 <div>
                   {date.getUTCDate()}/{date.getUTCMonth() + 1}/{date.getUTCFullYear()}
                 </div>
@@ -79,7 +79,7 @@ function App() {
                 </div>
                 <div className='text-4xl'><TbTemperatureCelsius /></div>
               </div>
-              <div className='capitalize text-center'>{data.weather[0].description}</div>
+              <div className='text-center capitalize'>{data.weather[0].description}</div>
             </div>
             <div className='max-w-[378px] mx-auto flex flex-col gap-y-6'>
               <div className='flex justify-between'>
